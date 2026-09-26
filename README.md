@@ -56,20 +56,68 @@ This fork adapts the original RFC to support **out-of-tree compilation**.
   in [Jamie Steele's attempt][presonus-quantum2626-linux]
   and [my own research][presonus-quantum-linux].
 
-## Build
+
+## Development Workflow
+
+This repository serves as a local working tree
+for out-of-tree building and testing.
+When contributing changes back to the Linux kernel community,
+**do not send commits directly**.
+Instead, generate standard patch files that exclude local build infrastructure.
+
+### Generating Patches for Upstream Submission
+
+To create patch files suitable for the `linux-sound` mailing list,
+excluding the root `Makefile`, `README.md`, and `LICENSE`:
+
+```bash
+# Replace <base-commit> with the hash of the last clean import (e.g., the RFC import commit)
+git format-patch <base-commit>..HEAD -- ':!Makefile' ':!README.md' ':!LICENSE'
+```
+
+### Sending Patches
+
+Once generated, review the patches and send them via `git send-email`:
+
+```bash
+git send-email --to=linux-sound@vger.kernel.org \
+  --cc=tiwai@suse.com --cc=perex@perex.cz \
+  *.patch
+```
+
+### Code Style & Checks
+
+Before generating patches, ensure your code adheres to kernel standards:
+
+```bash
+# Check for coding style issues
+make C=1
+
+# Run static analysis (needs sparse installed)
+make C=2
+```
+
+> **Note:** Always mark incomplete features
+> or known issues with `// FIXME` or `// TODO` comments in the code.
+> These will be visible in the generated patches
+> and signal to reviewers which parts are work-in-progress.
+
+## Usage
+
+### Build
 
 ```bash
 make
 ```
 
-## Install
+### Install
 
 ```bash
 sudo make install-module
 sudo modprobe snd-quantum
 ```
 
-## Uninstall
+### Uninstall
 
 ```bash
 sudo rmmod snd-quantum
