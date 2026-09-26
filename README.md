@@ -1,4 +1,4 @@
-# quantum
+# Quantum
 
 Linux kernel ALSA driver for PreSonus™ Quantum Thunderbolt™ audio interfaces.
 
@@ -10,7 +10,7 @@ Work is in progress to extend support to the rest of the Quantum product family.
 ## Origin & Attribution
 
 This repository is an out-of-tree build adaptation
-of the original [RFC patch series](rfc)
+of the original [RFC patch series][rfc]
 by **Nicholas Johnson** (August 20, 2026).
 
 > Hi all,
